@@ -88,6 +88,16 @@ class BuildProtobuf(build):
     """Compile protocol buffers via `protoc` compiler"""
 
     def run(self):
+
+        # Raise & exit early if `protoc` compiler not available
+        if shutil.which("protoc") is None:
+            raise RuntimeError(
+                "The Protobuf compiler, `protoc`, which is required for"
+                " installing this package, could not be found."
+                " See https://github.com/protocolbuffers/protobuf for"
+                " information on installing Protobuf."
+            )
+
         # Create protobufs dir if it does not exist
         protobuf_dir = path.join(HERE, "src/cld_3/protos/")
         if not path.exists(protobuf_dir):
@@ -126,23 +136,15 @@ CLASSIFIERS = [
 
 if __name__ == "__main__":
 
-    # Raise & exit early if `protoc` compiler not available
-    if shutil.which("protoc") is None:
-        raise RuntimeError(
-            "The Protobuf compiler, `protoc`, which is required for"
-            " installing this package, could not be found."
-            " See https://github.com/protocolbuffers/protobuf for"
-            " information on installing Protobuf."
-        )
-
     # https://docs.python.org/3/distutils/setupscript.html#additional-meta-data
     if HAS_CYTHON:
         extensions = cythonize(ext)
     else:
         extensions = ext
+
     setup(
         name="pycld3",
-        version="0.11",
+        version="0.12",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
