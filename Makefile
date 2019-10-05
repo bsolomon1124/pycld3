@@ -3,3 +3,6 @@ clean:
 
 publish:
 	./publish.sh
+
+test:
+	python -m pip install --quiet -e . && python -m unittest test_pycld3.py
