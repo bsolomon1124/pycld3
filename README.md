@@ -2,6 +2,13 @@
 
 Python bindings to the Compact Language Detector v3 (CLD3).
 
+[![License](https://img.shields.io/github/license/bsolomon1124/pycld3.svg)](https://github.com/bsolomon1124/pycld3/blob/master/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/pycld3.svg)](https://pypi.org/project/pycld3/)
+[![Status](https://img.shields.io/pypi/status/pycld3.svg)](https://pypi.org/project/pycld3/)
+[![Python](https://img.shields.io/pypi/pyversions/pycld3.svg)](https://pypi.org/project/pycld3)
+[![Implementation](https://img.shields.io/pypi/implementation/pycld3)](https://pypi.org/project/pycld3)
+[![Size](https://img.shields.io/github/repo-size/bsolomon1124/pycld3)](https://github.com/bsolomon1124/pycld3)
+
 This package contains Python bindings (via Cython) to Google's [CLD3](https://github.com/google/cld3/) library.
 
 ## Installation

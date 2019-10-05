@@ -142,7 +142,7 @@ if __name__ == "__main__":
         extensions = ext
     setup(
         name="pycld3",
-        version="0.10",
+        version="0.11",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
@@ -156,4 +156,5 @@ if __name__ == "__main__":
         url="https://github.com/bsolomon1124/pycld3",
         ext_modules=extensions,
         python_requires=">=3",
+        classifiers=CLASSIFIERS,
     )
