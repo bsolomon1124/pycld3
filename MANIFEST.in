@@ -8,4 +8,5 @@ include README.md
 global-exclude *.pyc
 global-exclude *.cache
 global-exclude *.so
-graft src
+graft src*
+graft src/cld_3/protos*

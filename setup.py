@@ -141,7 +141,7 @@ if __name__ == "__main__":
         extensions = ext
     setup(
         name="pycld3",
-        version="0.5",
+        version="0.6",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
