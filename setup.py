@@ -9,7 +9,8 @@ from setuptools import Extension, setup
 
 try:
     from Cython.Build import cythonize
-except ModuleNotFoundError:
+except ImportError:
+    # ModuleNotFoundError is Python 3.6+
     HAS_CYTHON = False
 else:
     HAS_CYTHON = True
@@ -141,7 +142,7 @@ if __name__ == "__main__":
         extensions = ext
     setup(
         name="pycld3",
-        version="0.6",
+        version="0.7",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
