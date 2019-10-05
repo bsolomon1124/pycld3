@@ -84,9 +84,7 @@ class BuildProtobuf(build):
         # >     sentence.proto feature_extractor.proto task_spec.proto
         command = ["protoc"]
         command.extend(PROTOS)
-        command.append(
-            "--cpp_out={}".format(path.join(HERE, "src/cld_3/protos/"))
-        )
+        command.append("--cpp_out={}".format(path.join(HERE, "src/cld_3/protos/")))
         subprocess.run(command, check=True, cwd=path.join(HERE, "src/"))
         build.run(self)
 
@@ -119,9 +117,20 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.2",
+        version="0.3",
         cmdclass={"build": BuildProtobuf},
-        author="Google, Johannes Baiter, Elizabeth Myers, Brad Solomon",
+        author=",".join(
+            (
+                "Google",
+                "Johannes Baiter",
+                "Elizabeth Myers",
+                "Witold Bołt",
+                "Alfredo Luque",
+                "WISESIGHT",
+                "RNogales",
+                "Brad Solomon",
+            )
+        ),
         author_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(path.join(HERE, "README.md")).read(),
