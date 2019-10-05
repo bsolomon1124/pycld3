@@ -87,7 +87,6 @@ class BuildProtobuf(build):
         command.append(
             "--cpp_out={}".format(path.join(HERE, "src/cld_3/protos/"))
         )
-        print("Running", command)
         subprocess.run(command, check=True, cwd=path.join(HERE, "src/"))
         build.run(self)
 
@@ -120,7 +119,7 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.1",
+        version="0.2",
         cmdclass={"build": BuildProtobuf},
         author="Google, Johannes Baiter, Elizabeth Myers, Brad Solomon",
         author_email="brad.solomon.1124@gmail.com",
