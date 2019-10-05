@@ -55,7 +55,7 @@ else:
     # Avoid forcing user to have Cython; let them compile the intermediate
     # CPP source file instead
     # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
-    SOURCES.insert(0, "pycld3.cc")
+    SOURCES.insert(0, "pycld3.cpp")
 
 # List of directories to search for C/C++ header files
 INCLUDES = [
@@ -142,7 +142,7 @@ if __name__ == "__main__":
         extensions = ext
     setup(
         name="pycld3",
-        version="0.8",
+        version="0.9",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
