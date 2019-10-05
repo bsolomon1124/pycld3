@@ -8,8 +8,8 @@ This package contains Python bindings (via Cython) to Google's [CLD3](https://gi
 
 Install via [Pip](https://pypi.org/project/pycld3/):
 
-```console
-$ python -m pip installa pycld3
+```bash
+python -m pip install pycld3
 ```
 
 ## Building from Source
@@ -62,15 +62,15 @@ Below are some quick install commands, but please consult [the official protobuf
 
 _Ubuntu Linux_:
 
-```console
-$ sudo apt-get update
-$ sudo apt-get install protobuf-compiler
+```bash
+sudo apt-get update
+sudo apt-get install protobuf-compiler
 ```
 
 _Mac OSX_:
 
-```console
-$ brew update && brew install protobuf
+```bash
+brew update && brew install protobuf
 ```
 
 ### Authors
