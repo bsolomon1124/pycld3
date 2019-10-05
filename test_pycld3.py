@@ -33,6 +33,13 @@ class TestDetect(unittest.TestCase):
             ["bg", "en"],
         )
 
+        langs = cld3.get_frequent_languages(
+            "Derrière ce sujet des retraites, il y a beaucoup de questions autour de ce que sera le travail de demain. Nous ne sommes pas au bout de ce chantier. Jusqu’à présent nous avons ajusté, il est temps de refonder. On le fera en transparence, et tous ensemble.",  # noqa
+            num_langs=5,
+        )
+        self.assertEqual(len(langs), 1)
+        self.assertEqual(langs[0].language, "fr")
+
 
 if __name__ == "__main__":
     unittest.main()
