@@ -12,14 +12,7 @@ Install via [Pip](https://pypi.org/project/pycld3/):
 python -m pip install pycld3
 ```
 
-## Building from Source
-
-To build this extension, you will need:
-
-- [Cython](https://cython.readthedocs.io/en/latest/)
-- [Protobuf](https://github.com/protocolbuffers/protobuf), including the `protoc` Protobuf compiler available as an executable
-
-Building the extension does *not* require the Chromium repository.
+Developers: see also [Building from Source](#for-developers-building-from-source).
 
 ## Usage
 
@@ -42,14 +35,41 @@ LanguagePrediction(language='en', probability=0.9999980926513672, is_reliable=Tr
 ...
 LanguagePrediction(language='bg', probability=0.9173890948295593, is_reliable=True, proportion=0.5853658318519592)
 LanguagePrediction(language='en', probability=0.9999790191650391, is_reliable=True, proportion=0.4146341383457184)
-LanguagePrediction(language='und', probability=0.0, is_reliable=False, proportion=0.0)
 ```
 
 ## FAQ
 
-### `cld3` incorrectly detects my input, how can I fix this?
+### `cld3` incorrectly detects my input.  How can I fix this?
 
-In some cases, you cannot.  Language detection algorithms in general may perform poorly with very short inputs.
+A first resort is to **preprocess (clean) your input text** based on conditions specific to your program.
+
+A salient example is to remove URLs and email addresses from the input.  **CLD3 (unlike [CLD2](https://github.com/CLD2Owners/cld2))
+does almost none of this cleaning for you**, in the spirit of not penalizing other users with overhead that they may not need.
+
+Here's such an example using a simplified URL regex from _Regular Expressions Cookbook, 2nd ed._:
+
+```python
+>>> import re
+>>> import cld3
+
+# cld3 does not ignore the URL components by default
+>>> s = "Je veux que: https://site.english.com/this/is/a/url/path/component#fragment"
+>>> cld3.get_language(s)
+LanguagePrediction(language='en', probability=0.5319557189941406, is_reliable=False, proportion=1.0)
+
+>>> url_re = r"\b(?:https?://|www\.)[a-z0-9-]+(\.[a-z0-9-]+)+(?:[/?].*)?"
+>>> new_s = re.sub(url_re, "", s)
+>>> new_s
+'Je veux que: '
+>>> cld3.get_language(new_s)
+LanguagePrediction(language='fr', probability=0.9799421429634094, is_reliable=True, proportion=1.0)
+```
+
+<sup>_Note_: This URL regex aims for simplicity.  It requires a domain name, and doesn't allow a username or password; it allows the scheme
+(http or https) to be omitted if it can be inferred from the subdomain (www).  Source: _Regular Expressions Cookbook, 2nd ed._ - Goyvaerts & Levithan.</sup>
+
+**In some other cases, you cannot fix the incorrect detection.**
+Language detection algorithms in general may perform poorly with very short inputs.
 Rarely should you trust the output of something like `detect("hi")`.  Keep this limitation in mind regardless
 of what library you are using.
 
@@ -87,3 +107,25 @@ This repository is a combination of changes introduced by various [forks](https:
 - WISESIGHT ([@ThothMedia](https://github.com/ThothMedia))
 - RNogales ([@RNogales94](https://github.com/RNogales94))
 - Brad Solomon ([@bsolomon1124](https://github.com/bsolomon1124))
+
+## For Developers: Building from Source
+
+To build this extension from scratch, you will need:
+
+- [Cython](https://cython.readthedocs.io/en/latest/)
+- [Protobuf](https://github.com/protocolbuffers/protobuf), including the `protoc` Protobuf compiler available as an executable
+
+Building the extension does *not* require the Chromium repository.
+
+With these installed, you can run the following from the project root:
+
+```bash
+python setup.py bdist_wheel
+python setup.py build_ext --inplace
+```
+
+Testing:
+
+```bash
+make test
+```
