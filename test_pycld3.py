@@ -16,6 +16,12 @@ class TestDetect(unittest.TestCase):
             "en",
         )
 
+        res = cld3.get_language("وفي وقت سابق اليوم السبت قالت الرئاسة المصرية -في بيان- إنها تتطلع لقيام الولايات المتحدة بدور فعال، خاصة في ضوء وصول المفاوضات بين الدول الثلاث لطريق مسدود.")  # noqa
+        self.assertEqual(res.language, "ar")
+
+        res = cld3.get_language("مغلوں کی خام اور سفید و سیاہ میں تصویر کشی دراصل مودی کی دائیں بازو والی بی جے پی حکومت کے اقتدار میں بھارتی مسلمانوں سے روا رکھے جانے سلوک کو درست ٹھہرانے کی کوشش کے سوا کچھ نہیں۔ ")  # noqa
+        self.assertEqual(res.language, "ur")
+
     def test_get_frequent_languages(self):
         self.assertFalse(cld3.get_frequent_languages("", 1))
         self.assertFalse(cld3.get_frequent_languages(None, 1))
