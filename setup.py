@@ -115,23 +115,15 @@ if __name__ == "__main__":
             " information on installing Protobuf."
         )
 
+    # https://docs.python.org/3/distutils/setupscript.html#additional-meta-data
     setup(
         name="pycld3",
-        version="0.3",
+        version="0.4",
         cmdclass={"build": BuildProtobuf},
-        author=",".join(
-            (
-                "Google",
-                "Johannes Baiter",
-                "Elizabeth Myers",
-                "Witold Bołt",
-                "Alfredo Luque",
-                "WISESIGHT",
-                "RNogales",
-                "Brad Solomon",
-            )
-        ),
+        author="Brad Solomon",
+        maintainer="Brad Solomon",
         author_email="brad.solomon.1124@gmail.com",
+        maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(path.join(HERE, "README.md")).read(),
         long_description_content_type="text/markdown",
