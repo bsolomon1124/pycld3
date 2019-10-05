@@ -5,15 +5,20 @@ import subprocess
 from distutils.command.build import build
 from os import makedirs, path
 
-from Cython.Build import cythonize
 from setuptools import Extension, setup
+
+try:
+    from Cython.Build import cythonize
+except ModuleNotFoundError:
+    HAS_CYTHON = False
+else:
+    HAS_CYTHON = True
 
 HERE = path.abspath(path.dirname(__file__))
 
 # List of source filenames, relative to the distribution root
 # (where the setup script lives)
 SOURCES = [
-    "pycld3.pyx",
     "src/base.cc",
     "src/cld_3/protos/feature_extractor.pb.cc",
     "src/cld_3/protos/sentence.pb.cc",
@@ -43,6 +48,14 @@ SOURCES = [
     "src/workspace.cc",
 ]
 
+if HAS_CYTHON:
+    SOURCES.insert(0, "pycld3.pyx")
+else:
+    # Avoid forcing user to have Cython; let them compile the intermediate
+    # CPP source file instead
+    # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
+    SOURCES.insert(0, "pycld3.cc")
+
 # List of directories to search for C/C++ header files
 INCLUDES = [
     "/usr/local/include/",
@@ -54,14 +67,16 @@ INCLUDES = [
 LIBRARIES = ["protobuf"]
 
 # https://docs.python.org/3/distutils/setupscript.html#describing-extension-modules
-ext = Extension(
-    "cld3",  # Name of the extension by which it can be imported
-    sources=SOURCES,
-    include_dirs=INCLUDES,
-    libraries=LIBRARIES,
-    language="c++",
-    extra_compile_args=["-std=c++11"],
-)
+ext = [
+    Extension(
+        "cld3",  # Name of the extension by which it can be imported
+        sources=SOURCES,
+        include_dirs=INCLUDES,
+        libraries=LIBRARIES,
+        language="c++",
+        extra_compile_args=["-std=c++11"],
+    )
+]
 
 # .proto files define protocol buffer message formats
 # https://developers.google.com/protocol-buffers/docs/cpptutorial
@@ -75,6 +90,7 @@ class BuildProtobuf(build):
         # Create protobufs dir if it does not exist
         protobuf_dir = path.join(HERE, "src/cld_3/protos/")
         if not path.exists(protobuf_dir):
+            print("Creating dirs at \033[1m{}\033[0;0m".format(protobuf_dir))
             makedirs(protobuf_dir)
 
         # Run command via subprocess, using protoc compiler on .proto
@@ -84,7 +100,10 @@ class BuildProtobuf(build):
         # >     sentence.proto feature_extractor.proto task_spec.proto
         command = ["protoc"]
         command.extend(PROTOS)
-        command.append("--cpp_out={}".format(path.join(HERE, "src/cld_3/protos/")))
+        command.append(
+            "--cpp_out={}".format(path.join(HERE, "src/cld_3/protos/"))
+        )
+        print("Running \033[1m{}\033[0;0m".format(" ".join(command)))
         subprocess.run(command, check=True, cwd=path.join(HERE, "src/"))
         build.run(self)
 
@@ -116,9 +135,13 @@ if __name__ == "__main__":
         )
 
     # https://docs.python.org/3/distutils/setupscript.html#additional-meta-data
+    if HAS_CYTHON:
+        extensions = cythonize(ext)
+    else:
+        extensions = ext
     setup(
         name="pycld3",
-        version="0.4",
+        version="0.5",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
@@ -130,6 +153,6 @@ if __name__ == "__main__":
         license="Apache 2.0",
         keywords=["cld3", "cffi"],
         url="https://github.com/bsolomon1124/pycld3",
-        ext_modules=cythonize([ext]),
+        ext_modules=extensions,
         python_requires=">=3",
     )

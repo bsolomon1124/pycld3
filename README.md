@@ -4,6 +4,16 @@ Python bindings to the Compact Language Detector v3 (CLD3).
 
 This package contains Python bindings (via Cython) to Google's [CLD3](https://github.com/google/cld3/) library.
 
+## Installation
+
+Install via [Pip](https://pypi.org/project/pycld3/):
+
+```console
+$ python -m pip installa pycld3
+```
+
+## Building from Source
+
 To build this extension, you will need:
 
 - [Cython](https://cython.readthedocs.io/en/latest/)
@@ -45,7 +55,8 @@ of what library you are using.
 
 ### How do I fix an error telling me "The Protobuf compiler, `protoc`, could not be found"?
 
-The Protobuf compiler, `protoc`, is required for installing this package.
+The Protobuf compiler, `protoc`, is required for building this package.  (However, if you are installing from PyPI with `pip`, then the
+`.h` and `.cc` files generated with `protoc` will already be included.)
 
 Below are some quick install commands, but please consult [the official protobuf repository](https://github.com/protocolbuffers/protobuf) for information on installing Protobuf.
 

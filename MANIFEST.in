@@ -1,3 +1,8 @@
+# "It is strongly recommended that you distribute the generated .c
+# files as well as your Cython sources, so that users can install
+# your module without needing to have Cython available."
+# https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
+include pycld3.cpp
 include LICENSE
 include README.md
 global-exclude *.pyc

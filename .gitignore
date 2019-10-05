@@ -1,4 +1,8 @@
 # Cython and protobuf stuff specific to this project
+# We keep pycld3.cpp out of Git tree but *do* upload to PyPI
+# (see MANIFEST.in).  Likewise, the compiled results from
+# using protoc on the protocol buffers are distributed with PyPI,
+# but left out of Git so as not to crowd it.
 pycld3.cpp
 src/cld_3/
 
