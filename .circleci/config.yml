@@ -12,6 +12,8 @@ jobs:
             python -m venv venv
             . venv/bin/activate
             python -m pip install --upgrade pip
+            python -m pip install -r requirements-dev.txt
+            python setup.py bdist_wheel
             python -m pip install -e .
       - run:
           name: run tests
