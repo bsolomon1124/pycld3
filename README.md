@@ -14,13 +14,40 @@ This package contains Python bindings (via Cython) to Google's [CLD3](https://gi
 
 ## Installation
 
-Install via [Pip](https://pypi.org/project/pycld3/):
+<sup>_Note_: If you're using CPython 3.7 on a Mac, you can skip this section and simply `pip install pycld3`, since there are [cp37 wheels](https://pypi.org/project/pycld3/#files) included in the PyPI distribution.  It's on my to-do list to add wheels for other platforms/versions soon.</sup>
+
+This package requires a bit more than a one-line `pip install` to get up and running.  You'll also need the [Protobuf](https://github.com/protocolbuffers/protobuf) compiler (the `protoc` executable), as well as the Protobuf development headers.  Follow along below; I promise this will be painless:
+
+_Ubuntu Linux_: `protobuf-compiler` installs `protoc`, while `libprotobuf-dev` contains the Protobuf development headers and static libraries.
+
+```bash
+sudo apt-get update
+sudo apt-get install protobuf-compiler libprotobuf-dev
+```
+
+_RHEL_: Install from source.
+
+```bash
+curl -s -o protobuf-all-3.10.0.tar.gz \
+    https://github.com/protocolbuffers/protobuf/releases/download/v3.10.0/protobuf-all-3.10.0.tar.gz
+tar -xzf protobuf-all-3.10.0.tar.gz && rm -rf protobuf-all-3.10.0.tar.gz
+cd protobuf-all-3.10.0
+./configure && make && make install
+```
+
+_Mac OS X_: `brew install protobuf` will handle installing both `protoc` and placing the header files where they need to be (typically at `/usr/local/Cellar/protobuf/x.y.z/include/`).
+
+```bash
+brew update && brew install protobuf
+```
+
+<sup>Above are some quick install commands, but please consult [the official protobuf repository](https://github.com/protocolbuffers/protobuf) for information on installing Protobuf.</sup>
+
+Okay, now you're ready for the easy part; install via [Pip](https://pypi.org/project/pycld3/):
 
 ```bash
 python -m pip install pycld3
 ```
-
-Developers: see also [Building from Source](#for-developers-building-from-source).
 
 ## Usage
 
@@ -81,26 +108,6 @@ Language detection algorithms in general may perform poorly with very short inpu
 Rarely should you trust the output of something like `detect("hi")`.  Keep this limitation in mind regardless
 of what library you are using.
 
-### How do I fix an error telling me "The Protobuf compiler, `protoc`, could not be found"?
-
-The Protobuf compiler, `protoc`, is required for building this package.  (However, if you are installing from PyPI with `pip`, then the
-`.h` and `.cc` files generated with `protoc` will already be included.)
-
-Below are some quick install commands, but please consult [the official protobuf repository](https://github.com/protocolbuffers/protobuf) for information on installing Protobuf.
-
-_Ubuntu Linux_:
-
-```bash
-sudo apt-get update
-sudo apt-get install protobuf-compiler
-```
-
-_Mac OSX_:
-
-```bash
-brew update && brew install protobuf
-```
-
 ### Authors
 
 This repository contains a fork of [`google/cld3`](https://github.com/google/cld3/) at commit 06f695f.  The license for `google/cld3` can be found at
@@ -115,25 +122,3 @@ This repository is a combination of changes introduced by various [forks](https:
 - WISESIGHT ([@ThothMedia](https://github.com/ThothMedia))
 - RNogales ([@RNogales94](https://github.com/RNogales94))
 - Brad Solomon ([@bsolomon1124](https://github.com/bsolomon1124))
-
-## For Developers: Building from Source
-
-To build this extension from scratch, you will need:
-
-- [Cython](https://cython.readthedocs.io/en/latest/)
-- [Protobuf](https://github.com/protocolbuffers/protobuf), including the `protoc` Protobuf compiler available as an executable
-
-Building the extension does *not* require the Chromium repository.
-
-With these installed, you can run the following from the project root:
-
-```bash
-python setup.py bdist_wheel
-python setup.py build_ext --inplace
-```
-
-Testing:
-
-```bash
-make test
-```
