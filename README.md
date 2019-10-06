@@ -14,7 +14,7 @@ This package contains Python bindings (via Cython) to Google's [CLD3](https://gi
 
 ## Installation
 
-<sup>_Note_: If you're using CPython 3.7 on a Mac, you can skip this section and simply `pip install pycld3`, since there are [cp37 wheels](https://pypi.org/project/pycld3/#files) included in the PyPI distribution.  It's on my to-do list to add wheels for other platforms/versions soon.</sup>
+<sup>_Note_: The PyPI package contains one [platform wheel](https://packaging.python.org/guides/distributing-packages-using-setuptools/#platform-wheels), for Mac OS X 10.14 / CPython 3.7.  If this describes your platform & Python version, you can skip this section and simply `pip install pycld3`.  It's on my to-do list to add wheels for other platforms/versions soon.</sup>
 
 This package requires a bit more than a one-line `pip install` to get up and running.  You'll also need the [Protobuf](https://github.com/protocolbuffers/protobuf) compiler (the `protoc` executable), as well as the Protobuf development headers.  Follow along below; I promise this will be painless:
 
