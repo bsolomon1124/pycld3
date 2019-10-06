@@ -9,7 +9,7 @@ commands:
               . venv/bin/activate
               python -m pip install --upgrade pip
               python -m pip install -r requirements-dev.txt
-              sudo apt-get update && sudo apt-get install protobuf-compiler
+              sudo apt-get update && sudo apt-get install protobuf-compiler libprotobuf-dev
               python setup.py bdist_wheel
               python -m pip install -e .
         - run:
