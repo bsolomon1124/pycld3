@@ -1,0 +1,27 @@
+version: 2.1
+jobs:
+  build_37:
+    docker:
+      - image: circleci/python:3.7
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: install dependencies & compile
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            python -m pip install --upgrade pip
+            python -m pip install -e .
+      - run:
+          name: run tests
+          command: |
+            . venv/bin/activate
+            python -m unittest test_pycld3.py
+
+workflows:
+  version: 2.1
+  test:
+    jobs:
+      - build_37
+
