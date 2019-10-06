@@ -2,6 +2,7 @@
 
 Python bindings to the Compact Language Detector v3 (CLD3).
 
+[![CircleCI](https://circleci.com/gh/bsolomon1124/pycld3.svg?style=svg)](https://circleci.com/gh/bsolomon1124/pycld3)
 [![License](https://img.shields.io/github/license/bsolomon1124/pycld3.svg)](https://github.com/bsolomon1124/pycld3/blob/master/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/pycld3.svg)](https://pypi.org/project/pycld3/)
 [![Status](https://img.shields.io/pypi/status/pycld3.svg)](https://pypi.org/project/pycld3/)
