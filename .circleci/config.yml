@@ -1,22 +1,22 @@
 version: 2.1
 commands:
   install_compile_test:
-  steps:
-    - checkout
-    - run:
-        command: |
-        python -m venv venv
-        . venv/bin/activate
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements-dev.txt
-        sudo apt-get update && sudo apt-get install protobuf-compiler
-        python setup.py bdist_wheel
-        python -m pip install -e .
-    - run:
-        name: run tests
-        command: |
-        . venv/bin/activate
-        python -m unittest test_pycld3.py
+    steps:
+        - checkout
+        - run:
+            command: |
+            python -m venv venv
+            . venv/bin/activate
+            python -m pip install --upgrade pip
+            python -m pip install -r requirements-dev.txt
+            sudo apt-get update && sudo apt-get install protobuf-compiler
+            python setup.py bdist_wheel
+            python -m pip install -e .
+        - run:
+            name: run tests
+            command: |
+            . venv/bin/activate
+            python -m unittest test_pycld3.py
 
 jobs:
   build_37:
