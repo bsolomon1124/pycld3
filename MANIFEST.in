@@ -5,6 +5,7 @@
 include pycld3.cpp
 include LICENSE
 include README.md
+prune .github/
 global-exclude *.pyc
 global-exclude *.cache
 global-exclude *.so
