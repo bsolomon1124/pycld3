@@ -25,11 +25,17 @@ sudo apt-get update
 sudo apt-get install protobuf-compiler libprotobuf-dev
 ```
 
-_Alpine Linux_:
+_Alpine Linux_: If you do Docker multi-stage builds, `protobuf-dev` is needed at compile time. The final stage meant for runtime needs only `protobuf`.
 
+In build stage (compile time):
 ```bash
 apk --update add protobuf protobuf-dev
 ```
+
+In final stage (for runtime):
+```bash
+apk --update add protobuf
+``` 
 
 _RHEL_: Install from source.
 
