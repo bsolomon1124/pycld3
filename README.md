@@ -25,6 +25,12 @@ sudo apt-get update
 sudo apt-get install protobuf-compiler libprotobuf-dev
 ```
 
+_Alpine Linux_:
+
+```bash
+apk --update add protobuf protobuf-dev
+```
+
 _RHEL_: Install from source.
 
 ```bash
@@ -113,7 +119,7 @@ of what library you are using.
 This repository contains a fork of [`google/cld3`](https://github.com/google/cld3/) at commit 06f695f.  The license for `google/cld3` can be found at
 [LICENSES/CLD3\_LICENSE](https://github.com/bsolomon1124/pycld3/blob/master/LICENSES/CLD3_LICENSE).
 
-This repository is a combination of changes introduced by various [forks](https://github.com/google/cld3/network/members) of `google/cld3` by the following people:
+This repository is a combination of changes [introduced](https://github.com/google/cld3/issues/15) by [various forks](https://github.com/google/cld3/network/members) of `google/cld3` by the following people:
 
 - Johannes Baiter ([@jbaiter](https://github.com/jbaiter))
 - Elizabeth Myers ([@Elizafox](https://github.com/Elizafox))
