@@ -144,14 +144,17 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.14",
+        version="0.15",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
         author_email="brad.solomon.1124@gmail.com",
         maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
-        long_description=open(path.join(HERE, "README.md")).read(),
+        long_description=open(
+            path.join(HERE, "README.md"),
+            encoding="utf-8"
+        ).read(),
         long_description_content_type="text/markdown",
         license="Apache 2.0",
         keywords=["cld3", "cffi"],
