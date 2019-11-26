@@ -107,7 +107,7 @@ class BuildProtobuf(build):
         # Run command via subprocess, using protoc compiler on .proto
         # files
         #
-        # $ cd src && protoc --cpp-out cld_3/protos \
+        # $ cd src && protoc --cpp-_ut cld_3/protos \
         # >     sentence.proto feature_extractor.proto task_spec.proto
         command = ["protoc"]
         command.extend(PROTOS)
