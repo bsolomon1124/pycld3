@@ -75,7 +75,8 @@ ext = [
         include_dirs=INCLUDES,
         libraries=LIBRARIES,
         language="c++",
-        extra_compile_args=["-std=c++11"],
+        extra_compile_args=["-std=c++11", "-stdlib=libc++"],
+        extra_link_args=['-stdlib=libc++'],
     )
 ]
 
@@ -144,7 +145,7 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.17",
+        version="0.18",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
