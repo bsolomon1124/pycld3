@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import platform
 import shutil
 import subprocess
 from distutils.command.build import build
@@ -68,15 +69,22 @@ INCLUDES = [
 LIBRARIES = ["protobuf"]
 
 # https://docs.python.org/3/distutils/setupscript.html#describing-extension-modules
+kwargs = dict(
+    sources=SOURCES,
+    include_dirs=INCLUDES,
+    libraries=LIBRARIES,
+    language="c++",
+)
+if platform.system() == "Darwin":
+    kwargs["extra_compile_args"] = ["-std=c++11", "-stdlib=libc++"]
+    kwargs["extra_link_args"] = ['-stdlib=libc++']
+else:
+    kwargs["extra_compile_args"] = ["-std=c++11"]
+
 ext = [
     Extension(
         "cld3",  # Name of the extension by which it can be imported
-        sources=SOURCES,
-        include_dirs=INCLUDES,
-        libraries=LIBRARIES,
-        language="c++",
-        extra_compile_args=["-std=c++11", "-stdlib=libc++"],
-        extra_link_args=['-stdlib=libc++'],
+        **kwargs
     )
 ]
 
@@ -145,7 +153,7 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.18",
+        version="0.19",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
