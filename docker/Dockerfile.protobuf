@@ -1,0 +1,31 @@
+FROM quay.io/pypa/manylinux1_x86_64
+ARG PROTOBUF_VERSION='3.11.4'
+ENV PLAT='manylinux1_x86_64'
+
+WORKDIR /opt
+RUN set -ex \
+    && yum update -y \
+    && yum install -y \
+        autoconf \
+        automake \
+        gcc-c++ \
+        git \
+        glibc-headers \
+        gzip \
+        libtool \
+        make \
+        zlib-devel \
+    && curl -Lo /opt/protobuf.tar.gz \
+        "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-cpp-${PROTOBUF_VERSION}.tar.gz" \
+    && tar -xzvf protobuf.tar.gz \
+    && rm -f protobuf.tar.gz \
+    && pushd "protobuf-${PROTOBUF_VERSION}" \
+    && ./autogen.sh \
+    && ./configure --with-zlib --disable-debug \
+    && make \
+    && make install \
+    && ldconfig --verbose \
+    && popd \
+    && protoc --version \
+    && pkg-config --cflags protobuf \
+    && pkg-config --libs protobuf
