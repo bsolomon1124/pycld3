@@ -16,8 +16,7 @@ RUN set -ex \
     && yum install -y \
         autoconf \
         automake \
-        g++ \
-        git \
+        gcc-c++ \
         glibc-headers \
         gzip \
         libtool \
