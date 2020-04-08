@@ -24,7 +24,9 @@ jobs:
         python setup.py bdist_wheel --dist-dir wheels/
     - uses: actions/upload-artifact@v1
       with:
-        - name: MacOS cp${{ matrix.python-version }} wheel
-          path: wheels/
-        - name: System information
-          path: system_info.log
+        name: MacOS cp${{ matrix.python-version }} wheel
+        path: wheels/
+    - uses: actions/upload-artifact@v1
+      with:
+        name: System information
+        path: system_info.log
