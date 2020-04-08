@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# Does the heavy lifting of building manylinux1 wheels
+# Hijacked mostly from https://github.com/pypa/python-manylinux-demo
+#
+# See also:
+# - https://www.python.org/dev/peps/pep-0513/#the-manylinux1-policy
+# - https://github.com/pypa/manylinux
+
 set -ex
 
 {
