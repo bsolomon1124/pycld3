@@ -1,8 +1,17 @@
 clean:
-	rm -rf build/ dist/ pycld3.cpp src/cld_3/ pycld3.egg-info
-
-publish:
-	./publish.sh
+	rm -rvf build/ dist/ *.cpp *.so src/cld_3/ *.egg-info __pycache__
 
 test:
-	python -m pip install --quiet -e . && python -m unittest test_pycld3.py
+	python -m pip install -e .
+	python -m unittest discover -v -s .
+
+PROTOBUF_VERSION ?= 3.11.4
+
+image:
+	@echo "Building Docker image for $(PROTOBUF_VERSION)"
+	docker image build \
+		-f docker/Dockerfile.protobuf \
+		-t bsolomon1124/manylinux1_protobuf:latest \
+		-t bsolomon1124/manylinux1_protobuf:$(PROTOBUF_VERSION) \
+		--build-arg PROTOBUF_VERSION=$(PROTOBUF_VERSION) \
+		docker/
