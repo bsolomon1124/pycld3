@@ -77,16 +77,13 @@ kwargs = dict(
 )
 if platform.system() == "Darwin":
     kwargs["extra_compile_args"] = ["-std=c++11", "-stdlib=libc++"]
-    kwargs["extra_link_args"] = ['-stdlib=libc++']
+    kwargs["extra_link_args"] = ["-stdlib=libc++"]
 else:
     kwargs["extra_compile_args"] = ["-std=c++11"]
 
 ext = [
-    Extension(
-        "cld3",  # Name of the extension by which it can be imported
-        **kwargs
-    )
-]
+    Extension("cld3", **kwargs)
+]  # Name of the extension by which it can be imported
 
 # .proto files define protocol buffer message formats
 # https://developers.google.com/protocol-buffers/docs/cpptutorial
@@ -162,8 +159,7 @@ if __name__ == "__main__":
         maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(
-            path.join(HERE, "README.md"),
-            encoding="utf-8"
+            path.join(HERE, "README.md"), encoding="utf-8"
         ).read(),
         long_description_content_type="text/markdown",
         license="Apache 2.0",
@@ -173,5 +169,4 @@ if __name__ == "__main__":
         python_requires=">2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
         classifiers=CLASSIFIERS,
         zip_safe=False,
-
     )
