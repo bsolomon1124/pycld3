@@ -9,13 +9,14 @@ jobs:
       - run:
           name: Build manylinux1 wheels
           command: |
-            IMAGE_NAME=manylinux1_protobuf
-            docker image build -f docker/Dockerfile.protobuf -t "$IMAGE_NAME" docker/
+            IMAGE_NAME='bsolomon1124/manylinux1_protobuf:latest'
             docker container run --rm --volume "${PWD}":/io "$IMAGE_NAME" /io/build-wheels.sh
       - store_artifacts:
           path: wheelhouse/
       - store_artifacts:
           path: system_info.log
+  # N.B. we move the MacOS builds to GitHub Actions because it can be expressed
+  # more easily there and builds a whole lot faster to boot.
   # macos_wheels:
   #   macos:
   #     xcode: "11.4.0"
