@@ -4,6 +4,7 @@ on: [push]
 jobs:
   macos_wheels:
     name: Build MacOS wheels
+    # https://github.com/actions/virtual-environments/tree/master/images/macos
     runs-on: [macOS-10.15]
     strategy:
       max-parallel: 4
