@@ -26,3 +26,8 @@ jobs:
   #         command: |
   #           brew install
 
+workflows:
+  version: 2
+  build:
+    jobs:
+      - manylinux1_wheels
