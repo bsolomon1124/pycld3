@@ -16,12 +16,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{ matrix.python-version }} wheel
-        path: wheels/
       run: |
         brew install -v protobuf
         python -m pip install --upgrade pip wheel setuptools
         mkdir wheels/
         python setup.py bdist_wheel --dist-dir wheels/
+    - uses: actions/upload-artifact@v1
+      with:
+        name: ${{ matrix.python-version }} wheel
+        path: wheels/
