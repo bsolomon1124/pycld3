@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         brew install -v protobuf
-        python -m pip install --upgrade --disable-pip-version-check -r requirements.txt
+        python -m pip install --upgrade --disable-pip-version-check -r requirements-dev.txt
         mkdir wheels/
         python setup.py bdist_wheel --dist-dir wheels/
     - uses: actions/upload-artifact@v1
