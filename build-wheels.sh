@@ -8,7 +8,7 @@ set -ex
   protoc --version
   pkg-config --cflags protobuf
   pkg-config --libs protobuf
-} > system_info.log
+} > /io/system_info.log
 
 for PYBIN in /opt/python/*/bin; do
   case "$PYBIN" in 
