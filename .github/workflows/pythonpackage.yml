@@ -18,10 +18,13 @@ jobs:
     - name: Install dependencies
       run: |
         brew install -v protobuf
+        { protoc --version; sw_vers; } > system_info.log
         python -m pip install --upgrade --disable-pip-version-check -r requirements-dev.txt
         mkdir wheels/
         python setup.py bdist_wheel --dist-dir wheels/
     - uses: actions/upload-artifact@v1
       with:
-        name: ${{ matrix.python-version }} wheel
-        path: wheels/
+        - name: MacOS cp${{ matrix.python-version }} wheel
+          path: wheels/
+        - name: System information
+          path: system_info.log
