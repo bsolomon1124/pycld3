@@ -14,6 +14,8 @@ jobs:
             docker container run --rm --volume "${PWD}":/io "$IMAGE_NAME" /io/build-wheels.sh
       - store_artifacts:
           path: wheelhouse/
+      - store_artifacts:
+          path: system_info.log
   # macos_wheels:
   #   macos:
   #     xcode: "11.4.0"
