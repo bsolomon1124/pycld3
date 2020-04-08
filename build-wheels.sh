@@ -9,7 +9,7 @@ for PYBIN in /opt/python/*/bin; do
       *)
         # Py3 only
         echo "Building wheel for $PYBIN"
-        "${PYBIN}/pip" install -U -r /io/requirements-dev.txt
+        "${PYBIN}/pip" install --disable-pip-version-check --upgrade -r /io/requirements-dev.txt
         "${PYBIN}/pip" wheel /io/ -w wheelhouse/
         ;;
     esac
@@ -27,6 +27,7 @@ for PYBIN in /opt/python/*/bin/; do
         ;;
       *)
         echo "Installing for $PYBIN"
-        "${PYBIN}/pip" install pycld3 --no-index -f /io/wheelhouse
+        "${PYBIN}/pip" install pycld3 --disable-pip-version-check --no-index -f /io/wheelhouse
+        "${PYBIN}/pip" -m unittest
     esac
 done
