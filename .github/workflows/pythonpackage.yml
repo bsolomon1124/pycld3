@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         brew install -v protobuf
-        { protoc --version; sw_vers; python3 -c "import distutils.util; print(distutils.util.get_platform())" } > system_info.log
+        { protoc --version; sw_vers; python3 -c "import distutils.util; print(distutils.util.get_platform())"; } > system_info.log
         python -m pip install --upgrade --disable-pip-version-check -r requirements-dev.txt
     - name: Build wheels
       run: |
