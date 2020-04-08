@@ -26,6 +26,7 @@ RUN set -ex \
     && make install \
     && ldconfig --verbose \
     && popd \
+    && rm -rf "protobuf-${PROTOBUF_VERSION}" \
     && protoc --version \
     && pkg-config --cflags protobuf \
     && pkg-config --libs protobuf
