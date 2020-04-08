@@ -8,7 +8,7 @@ RUN set -ex \
     && yum install -y \
         autoconf \
         automake \
-        gcc-c++ \
+        g++ \
         git \
         glibc-headers \
         gzip \
