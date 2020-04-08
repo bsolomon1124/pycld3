@@ -94,7 +94,7 @@ PROTOS = ["sentence.proto", "feature_extractor.proto", "task_spec.proto"]
 
 
 class BuildProtobuf(build):
-    """Compile protocol buffers via `protoc` compiler"""
+    """Compile protocol buffers via `protoc` compiler."""
 
     def run(self):
 
@@ -137,6 +137,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: C++",
     "Development Status :: 3 - Alpha",
     "Topic :: Text Processing :: Linguistic",
@@ -153,11 +154,11 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.19",
+        version="0.20",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
-        author_email="brad.solomon.1124@gmail.com",
+        author_email="bsolomon@protonmail.com",
         maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(
@@ -166,9 +167,11 @@ if __name__ == "__main__":
         ).read(),
         long_description_content_type="text/markdown",
         license="Apache 2.0",
-        keywords=["cld3", "cffi"],
+        keywords=["cld3", "cffi", "language", "langdetect", "cld", "nlp"],
         url="https://github.com/bsolomon1124/pycld3",
         ext_modules=extensions,
-        python_requires=">=3",
+        python_requires=">2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
         classifiers=CLASSIFIERS,
+        zip_safe=False,
+
     )
