@@ -51,12 +51,12 @@ SOURCES = [
 ]
 
 if HAS_CYTHON:
-    SOURCES.insert(0, "pycld3.pyx")
+    SOURCES.insert(0, "cld3/pycld3.pyx")
 else:
     # Avoid forcing user to have Cython; let them compile the intermediate
     # CPP source file instead
     # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
-    SOURCES.insert(0, "pycld3.cpp")
+    SOURCES.insert(0, "cld3/pycld3.cpp")
 
 # List of directories to search for C/C++ header files
 INCLUDES = [
@@ -82,7 +82,7 @@ else:
     kwargs["extra_compile_args"] = ["-std=c++11"]
 
 ext = [
-    Extension("cld3", **kwargs)
+    Extension("cld3._cld3", **kwargs)
 ]  # Name of the extension by which it can be imported
 
 # .proto files define protocol buffer message formats
@@ -99,8 +99,8 @@ class BuildProtobuf(build):
         if shutil.which("protoc") is None:
             raise RuntimeError(
                 "The Protobuf compiler, `protoc`, which is required for"
-                " installing this package, could not be found."
-                " See https://github.com/protocolbuffers/protobuf for"
+                " building this package, could not be found.\n"
+                "See https://github.com/protocolbuffers/protobuf for"
                 " information on installing Protobuf."
             )
 
@@ -169,4 +169,5 @@ if __name__ == "__main__":
         python_requires=">2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
         classifiers=CLASSIFIERS,
         zip_safe=False,
+        packages=["cld3"],
     )

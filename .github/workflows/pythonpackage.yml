@@ -4,8 +4,12 @@ on: [push]
 jobs:
   macos_wheels:
     name: Build MacOS wheels
+    # Note: the container MacOS version may differ from the SDK
+    # used to build Python there.  It is the latter that determines
+    # the wheel's platform tag.
     # https://github.com/actions/virtual-environments/tree/master/images/macos
     # https://github.com/MacPython/wiki/wiki/Spinning-wheels
+    # https://github.com/actions/virtual-environments/issues/696
     runs-on: [macOS-10.15]
     strategy:
       max-parallel: 4
@@ -22,14 +26,18 @@ jobs:
         brew install -v protobuf
         { protoc --version; sw_vers; python3 -c "import distutils.util; print(distutils.util.get_platform())"; } > system_info.log
         python -m pip install --upgrade --disable-pip-version-check -r requirements-dev.txt
+        python -m pip install --upgrade --disable-pip-version-check delocate
     - name: Build wheels
       run: |
-        mkdir wheels/
-        python setup.py bdist_wheel --dist-dir wheels/
+        python -m pip wheel -v --no-deps --wheel-dir wheels/ .
+    - name: Repair wheels
+      run: |
+        delocate-listdeps --all ./wheels/*.whl
+        delocate-wheel -w wheelhouse -v ./wheels/*.whl
     - uses: actions/upload-artifact@v1
       with:
         name: MacOS cp${{ matrix.python-version }} wheel
-        path: wheels/
+        path: wheelhouse/
     - uses: actions/upload-artifact@v1
       with:
         name: System information

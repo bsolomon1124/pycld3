@@ -2,8 +2,9 @@
 # files as well as your Cython sources, so that users can install
 # your module without needing to have Cython available."
 # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
-include pycld3.cpp
-include pycld3.pyx
+include cld3/pycld3.cpp
+include cld3/pycld3.pyx
+include cld3/__init__.py
 include LICENSE
 include README.md
 prune .github/

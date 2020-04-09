@@ -1,5 +1,5 @@
 clean:
-	rm -rvf build/ dist/ *.cpp *.so src/cld_3/ *.egg-info __pycache__
+	rm -rvf build/ dist/ cld3/*.cpp *.so src/cld_3/ *.egg-info cld3/__pycache__ *.dist-info
 
 test:
 	python -m pip install -e .
