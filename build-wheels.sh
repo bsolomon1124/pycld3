@@ -24,6 +24,7 @@ for PYBIN in /opt/python/*/bin; do
     *)
       # Py3 only
       echo "Building wheel for $PYBIN"
+      rm -vf /io/cld3/pycld3.cpp
       "${PYBIN}/pip" install --disable-pip-version-check --upgrade -r /io/requirements-dev.txt
       "${PYBIN}/pip" wheel /io/ -w wheelhouse/
       ;;
@@ -35,16 +36,3 @@ for whl in wheelhouse/*.whl; do
   echo "Vendoring in external shared libs for $whl"
   auditwheel repair "$whl" --plat "$PLAT" -w /io/wheelhouse/
 done
-
-for PYBIN in /opt/python/*/bin/; do
-  case "$PYBIN" in 
-    *'27'*)
-      ;;
-    *)
-      echo "Installing for $PYBIN"
-      "${PYBIN}/pip" install pycld3 --disable-pip-version-check --no-index -f /io/wheelhouse
-      "${PYBIN}/python" -m unittest discover -v -s /io/
-  esac
-done
-
-
