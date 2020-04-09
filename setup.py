@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.20",
+        version="0.21",
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
