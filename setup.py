@@ -141,6 +141,18 @@ CLASSIFIERS = [
     "Intended Audience :: Developers",
 ]
 
+
+def find_version(filepath):
+    version = None
+    with open(filepath) as f:
+        for line in f:
+            if line.startswith("__version__"):
+                version = line.partition("=")[-1].strip().strip("'\"")
+    if not version:
+        raise RuntimeError("Could not find version in __init__.py")
+    return version
+
+
 if __name__ == "__main__":
 
     # https://docs.python.org/3/distutils/setupscript.html#additional-meta-data
@@ -151,7 +163,7 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.22",
+        version=find_version("cld3/__init__.py"),
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
