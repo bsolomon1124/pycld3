@@ -26,7 +26,7 @@ for PYBIN in /opt/python/*/bin; do
       echo "Building wheel for $PYBIN"
       rm -vf /io/cld3/pycld3.cpp
       "${PYBIN}/pip" install --disable-pip-version-check --upgrade -r /io/requirements-dev.txt
-      "${PYBIN}/pip" wheel /io/ -w wheelhouse/
+      "${PYBIN}/pip" wheel -v -w wheelhouse/ /io/
       ;;
   esac
 done
