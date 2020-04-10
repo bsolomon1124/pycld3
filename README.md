@@ -5,61 +5,121 @@ Python bindings to the Compact Language Detector v3 (CLD3).
 [![CircleCI](https://circleci.com/gh/bsolomon1124/pycld3.svg?style=svg)](https://circleci.com/gh/bsolomon1124/pycld3)
 [![License](https://img.shields.io/github/license/bsolomon1124/pycld3.svg)](https://github.com/bsolomon1124/pycld3/blob/master/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/pycld3.svg)](https://pypi.org/project/pycld3/)
+[![Wheel](https://img.shields.io/pypi/wheel/pycld3)](https://img.shields.io/pypi/wheel/pycld3)
 [![Status](https://img.shields.io/pypi/status/pycld3.svg)](https://pypi.org/project/pycld3/)
 [![Python](https://img.shields.io/pypi/pyversions/pycld3.svg)](https://pypi.org/project/pycld3)
 [![Implementation](https://img.shields.io/pypi/implementation/pycld3)](https://pypi.org/project/pycld3)
-[![Size](https://img.shields.io/github/repo-size/bsolomon1124/pycld3)](https://github.com/bsolomon1124/pycld3)
 
 This package contains Python bindings (via Cython) to Google's [CLD3](https://github.com/google/cld3/) library.
 
-## Installation
-
-<sup>_Note_: The PyPI package contains one [platform wheel](https://packaging.python.org/guides/distributing-packages-using-setuptools/#platform-wheels), for Mac OS X 10.14 / CPython 3.7.  If this describes your platform & Python version, you can skip this section and simply `pip install pycld3`.  It's on my to-do list to add wheels for other platforms/versions soon.</sup>
-
-This package requires a bit more than a one-line `pip install` to get up and running.  You'll also need the [Protobuf](https://github.com/protocolbuffers/protobuf) compiler (the `protoc` executable), as well as the Protobuf development headers.  Follow along below; I promise this will be painless:
-
-_Ubuntu Linux_: `protobuf-compiler` installs `protoc`, while `libprotobuf-dev` contains the Protobuf development headers and static libraries.
-
-```bash
-sudo apt-get update
-sudo apt-get install protobuf-compiler libprotobuf-dev
+```python
+>>> import cld3
+>>> cld3.get_language("影響包含對氣候的變化以及自然資源的枯竭程度")
+LanguagePrediction(language='zh', probability=0.999969482421875, is_reliable=True, proportion=1.0)
 ```
 
-_Alpine Linux_: If you do Docker multi-stage builds, `protobuf-dev` is needed at compile time. The final stage meant for runtime needs only `protobuf`.
+## Installing with Wheels: Supported Versions and Platforms
 
-In build stage (compile time):
+This project supports **CPython versions 3.5 through 3.8.**
+
+We publish [wheels](https://pypi.org/project/pycld3/#files) for the following matrix:
+
+- **MacOS 10.13 and 10.15**: CPython 3.5, 3.6, 3.7, and 3.8.
+- **Linux**: CPython 3.5, 3.6, 3.7, and 3.8; the wheels are [manylinux1](https://www.python.org/dev/peps/pep-0513/#the-manylinux1-policy)
+   x86-64 wheels, so should work on a varity of Linux variants.
+
+<sup>The wheels for both MacOS and manylinux1 include the external protobuf library copied into the wheel itself
+via [auditwheel](https://github.com/pypa/auditwheel) or
+[delocate](https://github.com/matthew-brett/delocate) so that you won't need to install any extra non-PyPI dependencies.</sup>
+
+If you are installing on one of the variants listed above, you should **not** need to have `protoc` or `libprotobuf` installed.  All you need is a recent version (19 or later) of `pip`:
+
 ```bash
-apk --update add protobuf protobuf-dev
+python -m pip install -U pycld3
 ```
 
-In final stage (for runtime):
-```bash
-apk --update add protobuf
-``` 
+## Installing from Source: Prerequisites
 
-_RHEL_: Install from source.
+If you are not on a platform variant that is eligible to use a wheel, you may still be able to use `pycld3` via its [source distribution](https://docs.python.org/3/distutils/sourcedist.html) (`tar.gz`), but a bit more work is required to install.
+Namely, you'll also need:
+
+- the Protobuf compiler (the `protoc` executable)
+- the Protobuf development headers and `libprotoc` library
+- a compiler, preferably `g++`
+
+Please consult [the official protobuf repository](https://github.com/protocolbuffers/protobuf) for information on installing Protobuf.
+The project contains an [Installation README](https://github.com/protocolbuffers/protobuf/tree/master/src) that covers installation
+on Windows and Unix.
+
+If for whatever reason you are on a Unix host but unable to use the wheels (for instance, if you have an i686 architecture), here is a quick-and-dirty guide to installing.
+
+### Debian/Ubuntu
 
 ```bash
-curl -s -o protobuf-all-3.10.0.tar.gz \
-    https://github.com/protocolbuffers/protobuf/releases/download/v3.10.0/protobuf-all-3.10.0.tar.gz
-tar -xzf protobuf-all-3.10.0.tar.gz && rm -rf protobuf-all-3.10.0.tar.gz
-cd protobuf-all-3.10.0
-./configure && make && make install
+sudo apt-get update -y
+sudo apt-get install -y --no-install-recommends \
+    g++ \
+    protobuf-compiler \
+    libprotobuf-dev
+python -m pip install -U pycld3
 ```
 
-_Mac OS X_: `brew install protobuf` will handle installing both `protoc` and placing the header files where they need to be (typically at `/usr/local/Cellar/protobuf/x.y.z/include/`).
+### Alpine Linux
+
+_Note_:
+[Alpine Linux does not support PyPI wheels](https://pythonspeed.com/articles/alpine-docker-python/)
+as of April 2020.  The steps below are mandatory on Alpine Linux because you will need
+to install from the source distribution.  If the situation permits, using a Debian distro
+should be much easier (and faster).
 
 ```bash
-brew update && brew install protobuf
+apk --update add g++ protobuf protobuf-dev
+python -m pip install -U pycld3
 ```
 
-<sup>Above are some quick install commands, but please consult [the official protobuf repository](https://github.com/protocolbuffers/protobuf) for information on installing Protobuf.</sup>
+### CentOS/RHEL
 
-Okay, now you're ready for the easy part; install via [Pip](https://pypi.org/project/pycld3/):
+Install from source, as root/UID 0:
 
 ```bash
-python -m pip install pycld3
+sudo su -
+set -ex
+pushd /opt
+PROTOBUF_VERSION='3.11.4'
+yum update -y
+yum install -y autoconf automake gcc-c++ glibc-headers gzip libtool make python3-devel zlib-devel
+curl -Lo /opt/protobuf.tar.gz \
+    "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/protobuf-cpp-${PROTOBUF_VERSION}.tar.gz"
+tar -xzvf protobuf.tar.gz
+rm -f protobuf.tar.gz
+pushd "protobuf-${PROTOBUF_VERSION}"
+./configure --with-zlib --disable-debug && make && make install && ldconfig --verbose
+popd && rm -rf "protobuf-${PROTOBUF_VERSION}" && popd && set +ex
+
+python -m pip install -U pycld3
 ```
+
+Note: the steps above are for CentOS 8.  For earlier versions, you may need to replace:
+
+- `gcc-c++` with `g++`
+- `python3-devel` with `python-devel`
+
+### MacOS/Homebrew
+
+```bash
+brew update
+brew upgrade protobuf || brew install -v protobuf
+python -m pip install -U pycld3
+```
+
+### Windows
+
+Please consult Protobuf's
+[C++ Installation - Windows](https://github.com/protocolbuffers/protobuf/tree/master/src#c-installation---windows)
+section for help with installing Protobuf on Windows.
+
+If you would like to help contribute Windows wheels (preferably as a job within the project's
+CI/CD pipelines), please [file an issue](https://github.com/bsolomon1124/pycld3).
 
 ## Usage
 
@@ -119,6 +179,49 @@ LanguagePrediction(language='fr', probability=0.9799421429634094, is_reliable=Tr
 Language detection algorithms in general may perform poorly with very short inputs.
 Rarely should you trust the output of something like `detect("hi")`.  Keep this limitation in mind regardless
 of what library you are using.
+
+Please remember that, at the end of the day, this project is just a Python wrapper to the CLD3 C++ library that does the actual heavy-lifting.
+
+### I'm seeing an error during `pip` installation.  How can I fix this?
+
+First, please make sure you have read the [installation](#installation-supported-versions-and-platforms) section that that you have
+installed Protobuf if necessary.
+
+If that doesn't help, please [file an issue](https://github.com/bsolomon1124/pycld3/issues) in this repository.
+The build process for this project is somewhat complex because it involves both Cython and Protobuf, but I do my best
+to make it work everywhere possible.
+
+### Protobuf is installed, but I'm still seeing "cannot open shared object file"
+
+If you've installed Protobuf, but are seeing an error such as:
+
+```
+ImportError: libprotobuf.so.22: cannot open shared object file: No such file or directory
+```
+
+This likely means that Python is not finding the `libprotobuf` shared object,
+possibly because `ldconfig` didn't do what it was supposed to.
+You may need to tell it where to look.
+
+You can find where the library sits via:
+
+```bash
+$ find /usr -name 'libprotoc.so' \( -type l -o -type f \)
+/usr/local/lib/libprotoc.so
+```
+
+Then, you can add the directory containing this file to `LD_LIBRARY_PATH`:
+
+```bash
+export LD_LIBRARY_PATH="$(dirname $(find /usr -name 'libprotoc.so' \( -type l -o -type f \))):$LD_LIBRARY_PATH"
+```
+
+You can quickly test that this worked:
+
+```bash
+$ python -c 'import cld3; print(cld3.get_language("影響包含對氣候的變化以及自然資源的枯竭程度"))'
+LanguagePrediction(language='zh', probability=0.999969482421875, is_reliable=True, proportion=1.0)
+```
 
 ### Authors
 

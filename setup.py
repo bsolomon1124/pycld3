@@ -51,12 +51,12 @@ SOURCES = [
 ]
 
 if HAS_CYTHON:
-    SOURCES.insert(0, "pycld3.pyx")
+    SOURCES.insert(0, "cld3/pycld3.pyx")
 else:
     # Avoid forcing user to have Cython; let them compile the intermediate
     # CPP source file instead
     # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
-    SOURCES.insert(0, "pycld3.cpp")
+    SOURCES.insert(0, "cld3/pycld3.cpp")
 
 # List of directories to search for C/C++ header files
 INCLUDES = [
@@ -77,16 +77,13 @@ kwargs = dict(
 )
 if platform.system() == "Darwin":
     kwargs["extra_compile_args"] = ["-std=c++11", "-stdlib=libc++"]
-    kwargs["extra_link_args"] = ['-stdlib=libc++']
+    kwargs["extra_link_args"] = ["-stdlib=libc++"]
 else:
     kwargs["extra_compile_args"] = ["-std=c++11"]
 
 ext = [
-    Extension(
-        "cld3",  # Name of the extension by which it can be imported
-        **kwargs
-    )
-]
+    Extension("cld3._cld3", **kwargs)
+]  # Name of the extension by which it can be imported
 
 # .proto files define protocol buffer message formats
 # https://developers.google.com/protocol-buffers/docs/cpptutorial
@@ -94,7 +91,7 @@ PROTOS = ["sentence.proto", "feature_extractor.proto", "task_spec.proto"]
 
 
 class BuildProtobuf(build):
-    """Compile protocol buffers via `protoc` compiler"""
+    """Compile protocol buffers via `protoc` compiler."""
 
     def run(self):
 
@@ -102,8 +99,8 @@ class BuildProtobuf(build):
         if shutil.which("protoc") is None:
             raise RuntimeError(
                 "The Protobuf compiler, `protoc`, which is required for"
-                " installing this package, could not be found."
-                " See https://github.com/protocolbuffers/protobuf for"
+                " building this package, could not be found.\n"
+                "See https://github.com/protocolbuffers/protobuf for"
                 " information on installing Protobuf."
             )
 
@@ -137,11 +134,24 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: C++",
     "Development Status :: 3 - Alpha",
     "Topic :: Text Processing :: Linguistic",
     "Intended Audience :: Developers",
 ]
+
+
+def find_version(filepath):
+    version = None
+    with open(filepath) as f:
+        for line in f:
+            if line.startswith("__version__"):
+                version = line.partition("=")[-1].strip().strip("'\"")
+    if not version:
+        raise RuntimeError("Could not find version in __init__.py")
+    return version
+
 
 if __name__ == "__main__":
 
@@ -153,22 +163,23 @@ if __name__ == "__main__":
 
     setup(
         name="pycld3",
-        version="0.19",
+        version=find_version("cld3/__init__.py"),
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
         maintainer="Brad Solomon",
-        author_email="brad.solomon.1124@gmail.com",
+        author_email="bsolomon@protonmail.com",
         maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(
-            path.join(HERE, "README.md"),
-            encoding="utf-8"
+            path.join(HERE, "README.md"), encoding="utf-8"
         ).read(),
         long_description_content_type="text/markdown",
         license="Apache 2.0",
-        keywords=["cld3", "cffi"],
+        keywords=["cld3", "cffi", "language", "langdetect", "cld", "nlp"],
         url="https://github.com/bsolomon1124/pycld3",
         ext_modules=extensions,
-        python_requires=">=3",
+        python_requires=">2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
         classifiers=CLASSIFIERS,
+        zip_safe=False,
+        packages=["cld3"],
     )

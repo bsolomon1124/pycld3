@@ -1,3 +1,5 @@
+# Note: this does not include 'delocate,' which is MacOS-specific
 Cython
 wheel
 twine
+setuptools

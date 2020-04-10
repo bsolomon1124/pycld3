@@ -1,16 +1,20 @@
 name: pycld3_ci
-
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  build:
-    name: Test
-    runs-on: [macOS-latest, ubuntu-latest, windows-latest]
+  macos_wheels:
+    name: Build MacOS wheels
+    # Note: the container MacOS version may differ from the SDK
+    # used to build Python there.  It is the latter that determines
+    # the wheel's platform tag.
+    # https://github.com/actions/virtual-environments/tree/master/images/macos
+    # https://github.com/MacPython/wiki/wiki/Spinning-wheels
+    # https://github.com/actions/virtual-environments/issues/696
+    runs-on: [macOS-10.15]
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.5, 3.6, 3.7]
-
+        python-version: [3.5, 3.6, 3.7, 3.8]
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python ${{ matrix.python-version }}
@@ -19,8 +23,22 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install -e .
-    - name: Test with unittest
+        brew install -v protobuf
+        { protoc --version; sw_vers; python3 -c "import distutils.util; print(distutils.util.get_platform())"; } > system_info.log
+        python -m pip install --upgrade --disable-pip-version-check -r requirements-dev.txt
+        python -m pip install --upgrade --disable-pip-version-check delocate
+    - name: Build wheels
       run: |
-        python -m unittest test_pycld3.py
+        python -m pip wheel -v --no-deps --wheel-dir wheels/ .
+    - name: Repair wheels
+      run: |
+        delocate-listdeps --all ./wheels/*.whl
+        delocate-wheel -w wheelhouse -v ./wheels/*.whl
+    - uses: actions/upload-artifact@v1
+      with:
+        name: MacOS cp${{ matrix.python-version }} wheel
+        path: wheelhouse/
+    - uses: actions/upload-artifact@v1
+      with:
+        name: System information
+        path: system_info.log

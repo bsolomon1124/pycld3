@@ -1,48 +1,36 @@
 version: 2.1
-commands:
-  install_compile_test:
-    steps:
-        - checkout
-        - run:
-            command: |
-              python -m venv venv
-              . venv/bin/activate
-              python -m pip install --upgrade pip
-              python -m pip install -r requirements-dev.txt
-              sudo apt-get update && sudo apt-get install protobuf-compiler libprotobuf-dev
-              python setup.py bdist_wheel
-              python -m pip install -e .
-        - run:
-            name: run tests
-            command: |
-              . venv/bin/activate
-              python -m unittest test_pycld3.py
 
 jobs:
-  build_37:
-    docker:
-      - image: circleci/python:3.7
-    working_directory: ~/repo
+  manylinux1_wheels:
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
-      - install_compile_test
-  build_36:
-    docker:
-      - image: circleci/python:3.6
-    working_directory: ~/repo
-    steps:
-      - install_compile_test
-  build_35:
-    docker:
-      - image: circleci/python:3.5
-    working_directory: ~/repo
-    steps:
-      - install_compile_test
+      - checkout
+      - run:
+          name: Build manylinux1 wheels
+          command: |
+            IMAGE_NAME='bsolomon1124/manylinux1_protobuf:latest'
+            docker container run --rm --volume "${PWD}":/io "$IMAGE_NAME" /io/build-manylinux-whls.sh
+      - store_artifacts:
+          path: wheelhouse/
+      - store_artifacts:
+          path: system_info.log
+  # N.B. we move the MacOS builds to GitHub Actions because it can be expressed
+  # more easily there and builds a whole lot faster to boot.
+  # macos_wheels:
+  #   macos:
+  #     xcode: "11.4.0"
+  #   environment:
+  #     HOMEBREW_NO_AUTO_UPDATE: 1
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Build MacOS wheels
+  #         command: |
+  #           brew install
 
 workflows:
   version: 2
-  test:
+  build:
     jobs:
-      - build_37
-      - build_36
-      - build_35
-
+      - manylinux1_wheels
