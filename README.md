@@ -32,7 +32,7 @@ We publish [wheels](https://pypi.org/project/pycld3/#files) for the following ma
 via [auditwheel](https://github.com/pypa/auditwheel) or
 [delocate](https://github.com/matthew-brett/delocate) so that you won't need to install any extra non-PyPI dependencies.</sup>
 
-If you are installing on one of the variants listed above, you should **not** need to have `protoc` or `libprotobuf` installed.  All you need is a recent version (19 or later) of `pip`:
+If you are installing on one of the variants listed above, you should **not** need to have `protoc` or `libprotobuf` installed:
 
 ```bash
 python -m pip install -U pycld3
