@@ -234,6 +234,6 @@ This repository is a combination of changes [introduced](https://github.com/goog
 - Elizabeth Myers ([@Elizafox](https://github.com/Elizafox))
 - Witold Bołt ([@houp](https://github.com/houp))
 - Alfredo Luque ([@iamthebot](https://github.com/iamthebot))
-- WISESIGHT ([@ThothMedia](https://github.com/ThothMedia))
+- WISESIGHT ([@wisesight](https://github.com/wisesight))
 - RNogales ([@RNogales94](https://github.com/RNogales94))
 - Brad Solomon ([@bsolomon1124](https://github.com/bsolomon1124))
