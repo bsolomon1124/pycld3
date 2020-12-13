@@ -18,6 +18,8 @@ This package contains Python bindings (via Cython) to Google's [CLD3](https://gi
 LanguagePrediction(language='zh', probability=0.999969482421875, is_reliable=True, proportion=1.0)
 ```
 
+The library outputs BCP-47-style language codes. For some languages, output is differentiated by script. Language and script names from Unicode CLDR. It supports over 100 languages/scripts. See full list of [supported languages/scripts](https://github.com/google/cld3/blob/master/README.md#supported-languages) in Google's CLD3 documentation.
+
 ## Installing with Wheels: Supported Versions and Platforms
 
 This project supports **CPython versions 3.5 through 3.8.**
