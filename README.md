@@ -10,6 +10,12 @@ Python bindings to the Compact Language Detector v3 (CLD3).
 [![Python](https://img.shields.io/pypi/pyversions/pycld3.svg)](https://pypi.org/project/pycld3)
 [![Implementation](https://img.shields.io/pypi/implementation/pycld3)](https://pypi.org/project/pycld3)
 
+## Newer Alternative: `gcld3`
+
+**Note**: Since the original publication of this `pycld3`, Google's `cld3` authors have published the Python package [gcld3](https://pypi.org/project/gcld3/), which are official Python bindings built with [pybind](https://github.com/pybind/pybind11). Please check that project out as it is part of the canonical `cld3` repository and will likely stay in better lock step with any `cld3` changes over time.
+
+## Overview
+
 This package contains Python bindings (via Cython) to Google's [CLD3](https://github.com/google/cld3/) library.
 
 ```python
