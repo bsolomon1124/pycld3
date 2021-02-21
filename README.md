@@ -34,7 +34,7 @@ We publish [wheels](https://pypi.org/project/pycld3/#files) for the following ma
 
 - **MacOS 10.13 and 10.15**: CPython 3.5, 3.6, 3.7, and 3.8.
 - **Linux**: CPython 3.5, 3.6, 3.7, and 3.8; the wheels are [manylinux1](https://www.python.org/dev/peps/pep-0513/#the-manylinux1-policy)
-   x86-64 wheels, so should work on a varity of Linux variants.
+   x86-64 wheels, so should work on a variety of Linux variants.
 
 <sup>The wheels for both MacOS and manylinux1 include the external protobuf library copied into the wheel itself
 via [auditwheel](https://github.com/pypa/auditwheel) or
