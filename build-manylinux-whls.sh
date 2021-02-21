@@ -25,6 +25,8 @@ for PYBIN in /opt/python/*/bin; do
       # Py3 only
       echo "Building wheel for $PYBIN"
       rm -vf /io/cld3/pycld3.cpp
+      "${PYBIN}/pip" install -U pip wheel setuptools
+      "${PYBIN}/pip" install --disable-pip-version-check cryptography --only-binary cryptography
       "${PYBIN}/pip" install --disable-pip-version-check --upgrade -r /io/requirements-dev.txt
       "${PYBIN}/pip" wheel -v -w wheelhouse/ /io/
       ;;

@@ -28,13 +28,12 @@ The library outputs BCP-47-style language codes. For some languages, output is d
 
 ## Installing with Wheels: Supported Versions and Platforms
 
-This project supports **CPython versions 3.5 through 3.8.**
+This project supports **CPython versions 3.5 through 3.9.**
 
 We publish [wheels](https://pypi.org/project/pycld3/#files) for the following matrix:
 
-- **MacOS 10.13 and 10.15**: CPython 3.5, 3.6, 3.7, and 3.8.
-- **Linux**: CPython 3.5, 3.6, 3.7, and 3.8; the wheels are [manylinux1](https://www.python.org/dev/peps/pep-0513/#the-manylinux1-policy)
-   x86-64 wheels, so should work on a varity of Linux variants.
+- **MacOS**: CPython 3.5 thru 3.9
+- **Linux**: CPython 3.5 thru 3.9; ([manylinux1](https://www.python.org/dev/peps/pep-0513/#the-manylinux1-policy))
 
 <sup>The wheels for both MacOS and manylinux1 include the external protobuf library copied into the wheel itself
 via [auditwheel](https://github.com/pypa/auditwheel) or
