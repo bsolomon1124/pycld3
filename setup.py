@@ -167,9 +167,7 @@ if __name__ == "__main__":
         version=find_version("cld3/__init__.py"),
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
-        maintainer="Brad Solomon",
         author_email="bsolomon@protonmail.com",
-        maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(
             path.join(HERE, "README.md"), encoding="utf-8"
