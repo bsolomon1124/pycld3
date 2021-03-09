@@ -9,7 +9,7 @@ set -e  # no pipefail
 
 brew upgrade protobuf || brew install protobuf
 
-for v in '3.5.10' '3.6.13' '3.7.10' '3.8.8' '3.9.2'; do
+for v in '3.6.13' '3.7.10' '3.8.8' '3.9.2'; do
   export PYENV_VERSION="$v"
   make clean
   rm -rf wheels
