@@ -21,8 +21,10 @@ for PYBIN in /opt/python/*/bin; do
   case "$PYBIN" in 
     *'27'*)
       ;;
+    *'35'*)
+      ;;
     *)
-      # Py3 only
+      # Py36+ only
       echo "Building wheel for $PYBIN"
       rm -vf /io/cld3/pycld3.cpp
       "${PYBIN}/pip" install -U pip wheel setuptools

@@ -83,10 +83,11 @@ kwargs = dict(
     libraries=LIBRARIES,
     language="c++",
 )
-if platform.system() == "Darwin":
+plat = platform.system()
+if plat == "Darwin":
     kwargs["extra_compile_args"] = ["-std=c++11", "-stdlib=libc++"]
     kwargs["extra_link_args"] = ["-stdlib=libc++"]
-else:
+elif plat != "Windows":
     kwargs["extra_compile_args"] = ["-std=c++11"]
 
 ext = [
@@ -138,7 +139,6 @@ CLASSIFIERS = [
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
@@ -175,9 +175,7 @@ if __name__ == "__main__":
         version=find_version("cld3/__init__.py"),
         cmdclass={"build": BuildProtobuf},
         author="Brad Solomon",
-        maintainer="Brad Solomon",
         author_email="bsolomon@protonmail.com",
-        maintainer_email="brad.solomon.1124@gmail.com",
         description="CLD3 Python bindings",
         long_description=open(
             path.join(HERE, "README.md"), encoding="utf-8"
@@ -187,7 +185,7 @@ if __name__ == "__main__":
         keywords=["cld3", "cffi", "language", "langdetect", "cld", "nlp"],
         url="https://github.com/bsolomon1124/pycld3",
         ext_modules=extensions,
-        python_requires=">2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*",
+        python_requires=">2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*",
         classifiers=CLASSIFIERS,
         zip_safe=False,
         packages=["cld3"],
