@@ -75,10 +75,11 @@ kwargs = dict(
     libraries=LIBRARIES,
     language="c++",
 )
-if platform.system() == "Darwin":
+plat = platform.system()
+if plat == "Darwin":
     kwargs["extra_compile_args"] = ["-std=c++11", "-stdlib=libc++"]
     kwargs["extra_link_args"] = ["-stdlib=libc++"]
-else:
+elif plat != "Windows":
     kwargs["extra_compile_args"] = ["-std=c++11"]
 
 ext = [
