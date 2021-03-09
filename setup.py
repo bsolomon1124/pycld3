@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import platform
 import shutil
 import subprocess
@@ -8,13 +9,16 @@ from os import makedirs, path
 
 from setuptools import Extension, setup
 
-try:
-    from Cython.Build import cythonize
-except ImportError:
-    # ModuleNotFoundError is Python 3.6+
-    HAS_CYTHON = False
-else:
-    HAS_CYTHON = True
+use_cython_val = os.environ.get("USE_CYTHON")
+USE_CYTHON = use_cython_val is not None and use_cython_val not in ("0", "false", "False")
+
+if USE_CYTHON:
+    try:
+        from Cython.Build import cythonize
+    except ImportError as e:
+        # ModuleNotFoundError is Python 3.6+
+        # If user explicitly specifies USE_CYTHON=1, they need Cython installed prior to build
+        raise RuntimeError("Specified USE_CYTHON=1 but could not find Cython installed") from e
 
 HERE = path.abspath(path.dirname(__file__))
 
@@ -50,12 +54,16 @@ SOURCES = [
     "src/workspace.cc",
 ]
 
-if HAS_CYTHON:
+# Avoid forcing user to have Cython; let them compile the intermediate
+# CPP source file instead
+# https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
+#
+# Note that both of these (most notably the Cython-generate .cpp file) must be included
+# in the sdist at distribution generation time! The conditional logic here applies to the installing
+# user and what they choose to build the extension from. Both files must be available in the sdist.
+if USE_CYTHON:
     SOURCES.insert(0, "cld3/pycld3.pyx")
 else:
-    # Avoid forcing user to have Cython; let them compile the intermediate
-    # CPP source file instead
-    # https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#distributing-cython-modules
     SOURCES.insert(0, "cld3/pycld3.cpp")
 
 # List of directories to search for C/C++ header files
@@ -157,7 +165,7 @@ def find_version(filepath):
 if __name__ == "__main__":
 
     # https://docs.python.org/3/distutils/setupscript.html#additional-meta-data
-    if HAS_CYTHON:
+    if USE_CYTHON:
         extensions = cythonize(ext)
     else:
         extensions = ext
