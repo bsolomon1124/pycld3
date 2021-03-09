@@ -10,7 +10,7 @@ jobs:
           name: Build manylinux1 wheels
           command: |
             IMAGE_NAME='bsolomon1124/manylinux1_protobuf:latest'
-            docker container run --rm --volume "${PWD}":/io "$IMAGE_NAME" /io/build-manylinux-whls.sh
+            docker container run --rm --volume "${PWD}":/io --workdir /io "$IMAGE_NAME" /io/build-manylinux-whls.sh
       - store_artifacts:
           path: wheelhouse/
       - store_artifacts:

@@ -29,6 +29,7 @@ jobs:
         python -m pip install --upgrade --disable-pip-version-check delocate
     - name: Build wheels
       run: |
+        USE_CYTHON=1 python setup.py --quiet build
         python -m pip wheel -v --no-deps --wheel-dir wheels/ .
     - name: Repair wheels
       run: |
@@ -42,3 +43,32 @@ jobs:
       with:
         name: System information
         path: system_info.log
+  sdist:
+    name: Build source distribution (sdist)
+    runs-on: [ubuntu-latest]
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y --no-install-recommends g++ protobuf-compiler libprotobuf-dev
+        python -m pip install --upgrade --disable-pip-version-check -r requirements-dev.txt
+    - name: Build sdist
+      env:
+        USE_CYTHON: 1
+      run: |
+        python setup.py --verbose build
+        python setup.py --verbose sdist
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: Source distribution
+        path: dist/
