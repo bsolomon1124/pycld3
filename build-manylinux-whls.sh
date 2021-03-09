@@ -30,6 +30,7 @@ for PYBIN in /opt/python/*/bin; do
       "${PYBIN}/pip" install -U pip wheel setuptools
       "${PYBIN}/pip" install --disable-pip-version-check cryptography --only-binary cryptography
       "${PYBIN}/pip" install --disable-pip-version-check --upgrade -r /io/requirements-dev.txt
+      USE_CYTHON=1 "${PYBIN}/python" setup.py --quiet build
       "${PYBIN}/pip" wheel -v -w wheelhouse/ /io/
       ;;
   esac
