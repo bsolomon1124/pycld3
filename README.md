@@ -1,5 +1,27 @@
 # `pycld3`
 
+> ## ⚠️ This project is archived and no longer maintained
+>
+> `pycld3` is **archived as of 2026** and will receive no further releases, bug fixes, or security updates. The last released version is `0.22`, which does **not** build on Python 3.10 or newer without patches.
+>
+> ### Why it's archived
+>
+> - **Upstream `cld3` is effectively unmaintained.** Google's [`cld3`](https://github.com/google/cld3) repository has not seen meaningful activity in years, so there is little value in keeping bindings current.
+> - **Protobuf C++ ABI instability.** `pycld3` links against `libprotobuf`, and Google bumps that library's SONAME nearly every release. Any wheel is pinned to one protobuf version, and a user-side protobuf upgrade silently breaks `import cld3` (see [#30](https://github.com/bsolomon1124/pycld3/issues/30), [#34](https://github.com/bsolomon1124/pycld3/issues/34)). This is not fixable without vendoring protobuf.
+> - **Python 3.10+ build break.** The shipped Cython-generated `cld3/pycld3.cpp` references `longintrepr.h`, which CPython removed in 3.11 (see [#35](https://github.com/bsolomon1124/pycld3/issues/35), [#31](https://github.com/bsolomon1124/pycld3/issues/31)). A regeneration would fix this, but the protobuf problem above would remain.
+> - **Poor Windows story.** From-source installs on Windows consistently fail on protobuf include paths (see [#17](https://github.com/bsolomon1124/pycld3/issues/17), [#29](https://github.com/bsolomon1124/pycld3/issues/29)).
+>
+> ### Recommended alternatives
+>
+> - **[`gcld3`](https://pypi.org/project/gcld3/)** — Google's own Python bindings to CLD3, using `pybind11`. The closest drop-in replacement for `pycld3`.
+> - **[`lingua-language-detector`](https://pypi.org/project/lingua-language-detector/)** — Pure-Python, more accurate than CLD3 on short text, actively maintained.
+> - **[`fasttext`](https://fasttext.cc/docs/en/language-identification.html)** + the `lid.176` model — Fast, accurate, widely used in production.
+> - **[`pycld2`](https://pypi.org/project/pycld2/)** — Bindings to the older CLD2, no protobuf dependency.
+>
+> Existing releases of `pycld3` remain installable from PyPI for anyone in a compatible environment (Python ≤ 3.9, matching `libprotobuf`), but new projects should choose one of the alternatives above.
+>
+> ---
+
 Python bindings to the Compact Language Detector v3 (CLD3).
 
 [![CircleCI](https://circleci.com/gh/bsolomon1124/pycld3.svg?style=svg)](https://circleci.com/gh/bsolomon1124/pycld3)
@@ -9,10 +31,6 @@ Python bindings to the Compact Language Detector v3 (CLD3).
 [![Status](https://img.shields.io/pypi/status/pycld3.svg)](https://pypi.org/project/pycld3/)
 [![Python](https://img.shields.io/pypi/pyversions/pycld3.svg)](https://pypi.org/project/pycld3)
 [![Implementation](https://img.shields.io/pypi/implementation/pycld3)](https://pypi.org/project/pycld3)
-
-## Newer Alternative: `gcld3`
-
-**Note**: Since the original publication of this `pycld3`, Google's `cld3` authors have published the Python package [gcld3](https://pypi.org/project/gcld3/), which are official Python bindings built with [pybind](https://github.com/pybind/pybind11). Please check that project out as it is part of the canonical `cld3` repository and will likely stay in better lock step with any `cld3` changes over time.
 
 ## Overview
 
