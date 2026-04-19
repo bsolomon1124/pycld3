@@ -145,7 +145,7 @@ CLASSIFIERS = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: C++",
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 7 - Inactive",
     "Topic :: Text Processing :: Linguistic",
     "Intended Audience :: Developers",
 ]
